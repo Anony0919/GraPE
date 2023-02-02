@@ -55,7 +55,6 @@ class GNNLayer(torch.nn.Module):
             message_im = hs_re * hr_im + hs_im * hr_re
             message = torch.cat([message_re, message_im], dim=-1)
 
-        # AGG() 扩散后的实体的相关message进行聚合， 得到[k2, d]
         if self.AGG_FUNC == 'pna':
             message_agg = self.pna_process(message, obj, item_size=len(nodes), edge_count=edge_count, scatter_dim=0)
         elif self.AGG_FUNC == 'mean':
