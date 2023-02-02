@@ -12,10 +12,8 @@ from utils import *
 
 parser = argparse.ArgumentParser(description="Parser for PRINCE")
 # train-related
-# parser.add_argument('--data_path', type=str, default='data/WN18RR/') # fb15k-237  WN18RR  nell  obgl_biokg  obgl_wikikg2
-# parser.add_argument('--task_mode', type=str, default='transductive') # inductive
-parser.add_argument('--data_path', type=str, default='data/nell_v1/') # fb237_v1  WN18RR_v1  nell_v1
-parser.add_argument('--task_mode', type=str, default='inductive') # inductive
+parser.add_argument('--data_path', type=str, default='data/WN18RR/') # fb15k-237  WN18RR  nell  obgl_biokg  obgl_wikikg2
+parser.add_argument('--task_mode', type=str, default='transductive') # inductive
 parser.add_argument('--seed', type=int, default=1234)
 parser.add_argument('--max_epoch', type=int, default=50)
 parser.add_argument('--gpu', type=int, default=0)
@@ -26,13 +24,9 @@ parser.add_argument('--eval_verbose', type=bool, default=False)
 parser.add_argument('--training_mode', type=str, default="small") # small large  precom  threehop  leaffill
 
 # model-related
-parser.add_argument('--lr', type=float, default=5e-4)
-parser.add_argument('--hidden_dim', type=int, default=32)
+parser.add_argument('--lr', type=float, default=5e-3)
+parser.add_argument('--hidden_dim', type=int, default=64)
 parser.add_argument('--n_layer', type=int, default=4)
-
-# parser.add_argument('--lr', type=float, default=5e-3)
-# parser.add_argument('--hidden_dim', type=int, default=64)
-# parser.add_argument('--n_layer', type=int, default=4)
 parser.add_argument('--attn_dim', type=int, default=8)
 parser.add_argument('--n_layer2', type=int, default=1)
 parser.add_argument('--MESS_FUNC', type=str, default='DistMult') # DistMult RotatE TransE
@@ -47,11 +41,11 @@ def setup_seed(seed):
     np.random.seed(seed)
     random.seed(seed)
     import torch
-    torch.manual_seed(seed)  # cpu
-    torch.cuda.manual_seed_all(seed)  # 并行gpu
-    torch.backends.cudnn.deterministic = True  # cpu/gpu结果一致
-    torch.backends.cudnn.benchmark = True  # 训练集变化不大时使训练加速
-
+    torch.manual_seed(seed)  
+    torch.cuda.manual_seed_all(seed)  
+    torch.backends.cudnn.deterministic = True  
+    torch.backends.cudnn.benchmark = True  
+    
 if __name__ == '__main__':
     opts = args
     setup_seed(args.seed)
