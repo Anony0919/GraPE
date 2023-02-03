@@ -5,9 +5,9 @@ from tqdm import tqdm
 import numpy as np
 import pickle as pkl
 import scipy
+from utils import *
 from scipy.sparse import csr_matrix
 from collections import defaultdict
-
 
 class DataLoader:
     def __init__(self, task_dir, relation2id=None, mode="transductive"):
@@ -176,9 +176,9 @@ class DataLoader:
 
         if remove_one_loop:  # 修改一下通过载入fact_edges来计算，不再batch共享feature_mask，从而修改last_filter_edges
             edge_data = torch.LongTensor(all_triple.T[[0, 2], :])
-            filter_index, num_match = self.edge_match(edge_data,
+            filter_index, num_match = edge_match(edge_data,
                                                       extend_triples[[0, 2], :])  # for FB
-            filter_mask = ~self.index_to_mask(filter_index, len(all_triple))
+            filter_mask = ~index_to_mask(filter_index, len(all_triple))
             filter_mask = filter_mask | (all_triple[:, 1] == (self.n_rel * 2))  # 保留每个实体的自环关系， 是否有负面影响
             remove_mask = filter_mask.numpy()
         fact_triple = all_triple[((1-random_mask)*remove_mask).astype(np.bool)]
