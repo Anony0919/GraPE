@@ -56,6 +56,7 @@ if __name__ == '__main__':
     else:
         dataset = dataset[-2]
     opts.dataset = dataset
+    if dataset == "fb15k-237": opts.remove_one_loop = True 
     opts.data_type = torch.float32
     torch.cuda.set_device(opts.gpu)
     print('==> gpu:', opts.gpu)
